@@ -57,29 +57,30 @@ while len(visited_rooms) < len(room_graph):
             unvisitedRoom.append((ex, room))
     
     if len(unvisitedRoom) > 0: # calculate immediacy instead when working
-        mostVisitable = ''
-        visitation = 0
-        for i, n in enumerate(unvisitedRoom): # enumerate over visitable rooms adjacent to current
-            exits = n[1].get_exits() # my unvisited room has exits
+        # dirToMostNeighbors = None
+        # visitation = 0
+        # for n in unvisitedRoom:
+        #     exits = n[1].get_exits()
 
-            vf = 0 # each immediately visitable room has a visitation factor
+        #     vf = 0
 
-            for ex in exits:
-                room = n[1].get_room_in_direction(ex) # get rooms from exits
-                if room in visited_rooms: # check if room visited
-                    vf += 1
-
-            if vf > visitation:
-                visitation = vf
-                mostVisitable = n[0]
+        #     for ex in exits:
+        #         room = n[1].get_room_in_direction(ex)
+        #         if room not in visited_rooms:
+        #             print('hi')
+        #             vf += 1
+            
+        #     if vf > visitation:
+        #         visitation = vf
+        #         dirToMostNeighbors = n[0]
 
         # player.travel(dirToMostNeighbors) # [first possible dir][ex]
         # traversal_path.append(dirToMostNeighbors)
-        if visitation == 0:
-            mostVisitable = unvisitedRoom[0][0]
 
-        player.travel(mostVisitable) # [room][dir]
-        traversal_path.append(mostVisitable)
+        randomVisit = random.randrange(len(unvisitedRoom))
+
+        player.travel(unvisitedRoom[randomVisit][0]) # [first possible room][dir]
+        traversal_path.append(unvisitedRoom[randomVisit][0])
 
         visited_rooms.add(player.current_room)
 
@@ -87,8 +88,6 @@ while len(visited_rooms) < len(room_graph):
         bfQ = Queue()
         c_room = player.current_room
         bfQ.enqueue((player.current_room, [])) # room / returnPath
-
-        directions = {}
 
         travelMap = []
 # c_room[0] == object, c_room[1] == directions
